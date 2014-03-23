@@ -1,0 +1,2 @@
+<driver name = "i2c_example" author="Mariusz Ryndzionek" description = "An example i2c linux kernel driver">
+</driver>

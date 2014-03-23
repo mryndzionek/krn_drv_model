@@ -1,0 +1,3 @@
+export PATH=../scripts:$PATH
+gsl -q -script:kernel_driver_c driver_example.xml
+gsl -q -script:i2c_driver_c i2c_example.xml

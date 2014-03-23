@@ -1,0 +1,38 @@
+.#  kernel_drivr_c.gsl
+.#
+.#  Generates a kernel driver
+.#
+.echo "Generating ../$(driver.name).c..."
+.output "../$(driver.name).c"
+/*  =========================================================================
+    $(driver.name) - $(driver.description:no)
+    
+    -------------------------------------------------------------------------
+    Copyright © 2013-2014 Mariusz Ryndzionek <m.ryndzionek@a2s.pl>
+    =========================================================================
+*/
+#include <linux/module.h>    // included for all kernel modules
+#include <linux/kernel.h>    // included for KERN_INFO
+#include <linux/init.h>      // included for __init and __exit macros
+
+.if defined (driver.license)
+MODULE_LICENSE("$(driver.license:no)");
+.else
+MODULE_LICENSE("GPL");
+.endif
+MODULE_AUTHOR("$(driver.author:no)");
+MODULE_DESCRIPTION("$(driver.description:no)");
+
+static int __init $(driver.name)_init(void)
+{
+    printk(KERN_INFO "Initializing module: $(driver.name)\\n");
+    return 0;    // Non-zero return means that the module couldn't be loaded.
+}
+
+static void __exit $(driver.name)_cleanup(void)
+{
+    printk(KERN_INFO "Cleaning up module: $(driver.name)\\n");
+}
+
+module_init($(driver.name)_init);
+module_exit($(driver.name)_cleanup);

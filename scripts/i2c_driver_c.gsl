@@ -1,0 +1,52 @@
+.#  kernel_drivr_c.gsl
+.#
+.#  Generates a kernel driver
+.#
+.echo "Generating ../$(driver.name).c..."
+.output "../$(driver.name).c"
+/*  =========================================================================
+    $(driver.name) - $(driver.description:no)
+    
+    -------------------------------------------------------------------------
+    Copyright © 2013-2014 Mariusz Ryndzionek <m.ryndzionek@a2s.pl>
+    =========================================================================
+*/
+#include <linux/module.h>    // included for all kernel modules
+#include <linux/kernel.h>    // included for KERN_INFO
+#include <linux/i2c.h>
+
+static int $(driver.name)_probe(struct i2c_client *client,
+                              const struct i2c_device_id *idp)
+{
+	return 0;
+}
+
+static int $(driver.name)_remove(struct i2c_client *client)
+{
+	return 0;
+}
+
+static const struct i2c_device_id $(driver.name)_id[] = {
+        { "$(driver.name)", 0 },
+        { }
+};
+MODULE_DEVICE_TABLE(i2c, $(driver.name)_id);
+
+static struct i2c_driver $(driver.name)_driver = {
+         .driver = {
+                 .name = "$(driver.name)",
+         },
+         .probe = $(driver.name)_probe,
+         .remove = $(driver.name)_remove,
+         .id_table = $(driver.name)_id,
+ };
+
+module_i2c_driver($(driver.name)_driver);
+
+.if defined (driver.license)
+MODULE_LICENSE("$(driver.license:no)");
+.else
+MODULE_LICENSE("GPL");
+.endif
+MODULE_AUTHOR("$(driver.author:no)");
+MODULE_DESCRIPTION("$(driver.description:no)");
