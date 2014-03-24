@@ -1,0 +1,44 @@
+.#  kernel_drivr_c.gsl
+.#
+.#  Generates a kernel driver
+.#
+.echo "Generating ../$(driver.name).c..."
+.output "../$(driver.name).c"
+/*  =========================================================================
+    $(driver.name) - $(driver.description:no)
+    
+    -------------------------------------------------------------------------
+    Copyright © 2013-2014 Mariusz Ryndzionek <m.ryndzionek@a2s.pl>
+    =========================================================================
+*/
+#include <linux/module.h>    // included for all kernel modules
+#include <linux/kernel.h>    // included for KERN_INFO
+#include <linux/spi/spi.h>
+
+static int $(driver.name)_probe(struct spi_device *spi)
+{
+	return 0;
+}
+
+static int $(driver.name)_remove(struct spi_device *spi)
+{
+	return 0;
+}
+
+static struct spi_driver $(driver.name)_driver = {
+         .driver = {
+                 .name = "$(driver.name)",
+         },
+         .probe = $(driver.name)_probe,
+         .remove = $(driver.name)_remove,
+ };
+
+module_spi_driver($(driver.name)_driver);
+
+.if defined (driver.license)
+MODULE_LICENSE("$(driver.license:no)");
+.else
+MODULE_LICENSE("GPL");
+.endif
+MODULE_AUTHOR("$(driver.author:no)");
+MODULE_DESCRIPTION("$(driver.description:no)");
